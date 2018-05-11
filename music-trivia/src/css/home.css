@@ -1,0 +1,36 @@
+.wrapper.home .app-title {
+    margin: 10px auto 0px;
+}
+
+.wrapper.home .tagline {
+    color: #aaa;
+}
+
+.wrapper.home main {
+    padding: 20px;
+    background: #f0f0f0;
+    margin: 30px auto;
+    max-width: 500px;
+}
+
+.wrapper.home .inner {
+    width: 95%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+#username {
+    border: none;
+    border-bottom: 3px solid #555;
+    background: rgba(255,255,255, 0.5);
+    font-size: 30px;
+    display: block;
+    padding: 8px 0;
+    margin: 15px 0 auto;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.wrapper.home .inner .btn {
+    width: 100%;
+}

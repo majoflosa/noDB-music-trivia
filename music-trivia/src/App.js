@@ -1,18 +1,58 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+// Components
+import Navigation from './components/Navigation';
+import Home from './components/Home';
+import Instructions from './components/Instructions';
+import Question from './components/Question';
+
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      currentPage: 'home',
+      questionCount: 0
+    }
+
+    this.displayPage = this.displayPage.bind( this );
+    this.changePage = this.changePage.bind( this );
+    this.throwQuestion = this.throwQuestion.bind( this );
+  }
+
+  changePage( pageName = 'home' ) {
+    this.setState({ currentPage: pageName });
+  }
+
+  displayPage() {
+    switch ( this.state.currentPage ) {
+      case 'instructions':
+        return <Instructions throwQuestion={this.throwQuestion} />;
+        break;
+      case 'question':
+        return <Question count={this.state.questionCount} />;
+        break;
+      case 'home':
+      default:
+        return <Home testing={'This is a test.'}/>;
+        break;
+    }
+  }
+
+  throwQuestion( count ) {
+    this.setState({ 
+      currentPage: 'question'
+    });
+    console.log( 'throwQuestion is working from Instructions' );
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Navigation handlePageChange={this.changePage} />
+        
+        { this.displayPage() }
       </div>
     );
   }

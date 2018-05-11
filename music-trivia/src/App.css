@@ -1,28 +1,48 @@
-.App {
-  text-align: center;
+/* @import url('https://fonts.googleapis.com/css?family=Hind:300,400,700'); */
+@import url('https://fonts.googleapis.com/css?family=Jaldi:400,700');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+body {
+    color: #555;
+    font-family: 'Jaldi', sans-serif;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease-in-out;
 }
 
-.App-title {
-  font-size: 1.5em;
+ul, ol {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
-.App-intro {
-  font-size: large;
+button {
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.wrapper {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px dashed #eee;
+}
+
+.btn {
+    background-color: #888;
+    color: #fff;
+    padding: 20px;
+    display: block;
+    margin: 15px auto;
+    text-transform: uppercase;
+    border: none;
 }

@@ -1,0 +1,12 @@
+.main-nav {
+    /* background-color: red; */
+}
+
+.main-nav span {
+    display: inline-block;
+    background: #eee;
+    margin: 0 5px;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    cursor: pointer
+}
