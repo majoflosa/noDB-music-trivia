@@ -22,7 +22,7 @@ class Home extends Component {
                 <header>
                     <h3>Welcome to</h3>
                     <h1 className="app-title">One of These Songs is Not Like the Other</h1>
-                    <p className="tagline">Brevity is the soul of wit... just not of this app's name.</p>
+                    {/* <p className="tagline">Brevity is the soul of wit... just not of this app's name.</p> */}
                 </header>
                 <main>
                     <div className="inner">

@@ -1,0 +1,19 @@
+.answers {
+    text-align: center;
+}
+
+.answer {
+    display: inline-block;
+    border: 1px solid #eee;
+    padding: 25px;
+    width: 42%;
+    margin: 5px 0.5%;
+    background: #f8f8f8;
+    font-size: 20px;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.answer:hover {
+    background: #eee;
+}
