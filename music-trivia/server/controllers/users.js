@@ -35,7 +35,6 @@ module.exports = {
     deleteUser: ( req, res ) => {
         for ( let i = users.length - 1; i >= 0; i-- ) {
             if ( users[i].id === Number(req.params.id) ) {
-                // console.log( users[i] );
                 console.log( `${users[i].username} is about to be deleted.` );
                 users.splice(i, 1);
             }

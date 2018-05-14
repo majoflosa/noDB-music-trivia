@@ -42,6 +42,9 @@ class App extends Component {
     this.randomizeAnswers = this.randomizeAnswers.bind( this );
     this.evaluateAnswer = this.evaluateAnswer.bind( this );
   }
+
+
+
   /**
    * Changes current page to display on state. Fired by clicking on nav items.
    * 
@@ -50,6 +53,8 @@ class App extends Component {
   changePage( pageName = 'home' ) {
     this.setState({ currentPage: pageName });
   }
+
+
 
   /**
    * Tests currentPage to decide which component to return. Fired on render() method on this component.
@@ -104,12 +109,16 @@ class App extends Component {
     }
   }
 
+
+
   /**
    * Fired by typing on input field on Home component.
    */ 
   updateUserName(e) {
     this.setState({ username: e.target.value });
   }
+
+
 
   /**
    * Creates a new user using post endpoint on local server. The created user is then set as currentUser.
@@ -142,6 +151,8 @@ class App extends Component {
       .catch(() => console.log( 'Server Error: User could not be created.'));
   }
 
+
+
   /**
    * Deletes user object from users array in local server using delete endpoint on local server.
    * Fired by clicking on red trash icon on PlayerStats component.
@@ -159,6 +170,8 @@ class App extends Component {
       } )
       .catch( () => console.log('User could not be deleted.') );
   }
+
+
 
   /**
    * Changes currentUser, in order to start playing under a different name. 
@@ -183,6 +196,8 @@ class App extends Component {
     })
   }
 
+
+
   /**
    * Resets stats, questionCount, and answer feedback.
    * 
@@ -198,8 +213,10 @@ class App extends Component {
       console.log( 'newGame has started ' );
   }
 
+
+
   /**
-   * randomizeAnswers
+   * randomizeAnswers()
    * Generates questions for the quiz. Checks if user should go to new game when invoked to reset stats and
    * question count.
    * 
@@ -277,6 +294,8 @@ class App extends Component {
       }); // end .then callback
   }
 
+
+
   /**
    * Is this function still used?
    * @param {array} users Array of all users stored in local server
@@ -307,6 +326,11 @@ class App extends Component {
     console.log( 'evaluateAnswer is passing correctly in App')
   }
 
+
+
+  /**
+   * Renders the app
+   */
   render() {
     return (
       <div className="App">

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import AnswerFeedback from './AnswerFeedback';
 import '../css/question.css';
 
 class Question extends Component {
@@ -11,14 +10,15 @@ class Question extends Component {
             correctAnswer: this.props.correctAnswer,
             score: this.props.score
         }
-
     }
 
     render() {
+        // prepare button conditionally to change at last question
         let buttonText = <span>Next Question <i className="fas fa-chevron-circle-right"></i></span>;
         if ( this.props.count === 5) {
             buttonText = <span>See Results <i className="fas fa-chevron-circle-right"></i></span>;
         }
+
         return (
             <div className="wrapper question">
                 <header>
@@ -53,7 +53,6 @@ class Question extends Component {
 
                     </ul>
 
-                    {/* <AnswerFeedback playerScored={this.state.playerScored} /> */}
                     <div className="answer-feedback">{this.props.playerScored}</div>
                     
                     <button onClick={() => this.props.nextQuestion(false)} className="btn">{buttonText}</button>

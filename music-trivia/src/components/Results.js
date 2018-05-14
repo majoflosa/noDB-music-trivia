@@ -38,7 +38,7 @@ class Results extends Component {
                 snark = 'Bro, do you even rock?';
                 break;
             case 1:
-                snark = 'What do they teaching at your school, man?';
+                snark = 'What did they teach at your school, man?';
                 break;
             default:
                 snark = '...You must be a big Nickelback fan.'

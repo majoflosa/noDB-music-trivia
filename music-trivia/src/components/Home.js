@@ -8,13 +8,7 @@ class Home extends Component {
         this.state = {
             username: this.props.username,
         }
-
-        // this.updateUserName = this.updateUserName.bind( this );
     }
-
-    // updateUserName(e) {
-    //     this.setState({ userName: e.target.value });
-    // }
     
     render() {
         return (
@@ -33,7 +27,6 @@ class Home extends Component {
                             type="text" 
                             placeholder="Rocky McHardrock"
                         />
-                        {/* <p>Username: {this.props.username}</p> */}
 
                         <button onClick={ () => this.props.saveUser(this.props.username) } className="btn">Continue</button>
                     </div>

@@ -7,10 +7,7 @@ class PlayerStats extends Component {
         super(props);
         this.state = {
             usersDisplaying: [],
-            
         };
-
-        // this.displayUpdatedStats = this.displayUpdatedStats.bind( this );
     }
     
     componentDidMount() {
@@ -18,22 +15,25 @@ class PlayerStats extends Component {
             .then( response => {
                 console.log( 'response.data: ', response.data );
 
+                // building list of user divs with stats
                 let userList = response.data.map( (user, index) => {
+                    // looping over all game scores to build a total
                     let totalScore = user.games.reduce( (total, game) => {
                         return (total + game)
                     }, 0);
-                    // 35.259259, 3 games, 5 4 5
 
+                    // building list of user's past games
                     let history = user.games.map( (game, gameInd) => {
                         return <span className="history-game">{game}/5</span>;
                     });
 
+                    // preparing delete button to render conditionally, depending on whether or not current user-stats div
+                    // represents current user
                     let deleteButton = <span onClick={(e) => this.props.deleteUser(e, user.id)} className="delete-user"><i className="fas fa-trash-alt"></i></span>
 
+                    // preparing button to switch users
                     let switchUserButton = <button onClick={() => this.props.switchUser(user.id)} className="btn">Play New Game as {user.username}</button>
 
-                    // let staticNewGameBtn = <button onClick={ this.props.newGame } className="btn start-game">New Game</button>
-                    
                     return (
                         <div key={user.id} 
                             className={this.props.currentUser.id === user.id ? 'user-stats current-user' : 'user-stats'}>
@@ -49,6 +49,7 @@ class PlayerStats extends Component {
                     );
                 });
 
+                // building final list of user divs to display
                 if ( userList.length === 0 ) {
                     console.log( 'userList: ', userList );
                     userList = <p className="no-users">There are currently no users.</p>;
@@ -62,9 +63,7 @@ class PlayerStats extends Component {
     render() {
         return (
             <div className="user-stats-wrap">
-                {/* User stats are displayed here. */}
                 { this.state.usersDisplaying }
-                {/* { this.displayUpdatedStats() } */}
             </div>
         );
     }
