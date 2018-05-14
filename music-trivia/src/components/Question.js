@@ -65,7 +65,7 @@ class Question extends Component {
                     {/* <AnswerFeedback playerScored={this.state.playerScored} /> */}
                     <div className="answer-feedback">{this.props.playerScored}</div>
                     
-                    <button onClick={this.props.nextQuestion} className="btn">Next Question</button>
+                    <button onClick={() => this.props.nextQuestion(false)} className="btn">Next Question</button>
                 </main>
                 
             </div>

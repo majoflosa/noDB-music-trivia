@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PlayerStats from './PlayerStats';
 
 class Results extends Component {
     // console.log( 'score: ', props.score );
@@ -18,6 +19,9 @@ class Results extends Component {
             <div className="wrapper results">
                 <h1>Your score:</h1>
                 <p>You got {this.props.finalScore}/5 questions.</p>
+                <button onClick={ this.props.newGame } className="btn start-game">New Game</button>
+
+                <PlayerStats updatedStats={this.props.updatedStats} />
             </div>
         );
     }

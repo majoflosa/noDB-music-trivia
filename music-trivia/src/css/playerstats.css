@@ -1,0 +1,21 @@
+.user-stats-wrap {
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+    text-align: center;
+}
+
+.user-stats {
+    background: #eee;
+    padding: 20px;
+    margin: 5px 3px;
+    width: 30%;
+    display: inline-block;
+}
+
+.history-game {
+    background-color: #fff;
+    padding: 10px 20px;
+    margin: 5px;
+    display: inline-block;
+}

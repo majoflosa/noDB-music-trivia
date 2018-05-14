@@ -6,15 +6,23 @@ const express = require( 'express' ),
       // songs = require( './controllers/songs' ),
       // artists = require( './controllers/artists' );
       questions = require( './controllers/questions' );
+      users = require( './controllers/users')
 
 app.use( json() );
 app.use( cors() );
 
-// gets list of songs from specified artist; used to generate question
+// selects 4 random bands from artist collection, selects 1 as correct answer
+// hits iTunes endpoint using correct answer to get list of songs
+// returns object with all answers, correct answer, and list of songs as possible questions
 app.get( '/api/question/', questions.getArtistSongs );
 
-// gets random list of four bands from artists collection
-// app.get( '/api/answers/', questions.getRandomArtists );
+// Get all users
+app.get( '/api/user/', users.getUsers );
 
+// Create a new user
+app.post( '/api/user', users.createUser );
+
+// Update user
+app.put( '/api/user/:id', users.updateUser );
 
 app.listen( port, console.log( `Server running. Listening on port ${port}.`) );

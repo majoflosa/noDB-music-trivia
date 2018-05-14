@@ -6,31 +6,30 @@ class Home extends Component {
         super( props );
         
         this.state = {
-            userName: '',
+            username: this.props.username,
         }
 
-        this.updateUserName = this.updateUserName.bind( this );
+        // this.updateUserName = this.updateUserName.bind( this );
     }
 
-    updateUserName(e) {
-        this.setState({ userName: e.target.value });
-    }
+    // updateUserName(e) {
+    //     this.setState({ userName: e.target.value });
+    // }
     
     render() {
         return (
             <div className="wrapper home">
                 <header>
                     <h3>Welcome to</h3>
-                    <h1 className="app-title">One of These Songs is Not Like the Other</h1>
-                    {/* <p className="tagline">Brevity is the soul of wit... just not of this app's name.</p> */}
+                    <h1 className="app-title">So You Think You Know Your Classic Rock?</h1>
                 </header>
                 <main>
                     <div className="inner">
                         <h3>Enter your name.</h3>
-                        <input id="username" onChange={ this.updateUserName } type="text"/>
-                        {/* <p>Username: {this.state.userName}</p> */}
+                        <input id="username" onChange={ (e) => this.props.updateUserName(e) } type="text"/>
+                        {/* <p>Username: {this.props.username}</p> */}
 
-                        <button className="btn">Continue</button>
+                        <button onClick={ () => this.props.saveUser(this.props.username) } className="btn">Continue</button>
                     </div>
                 </main>
             </div>
