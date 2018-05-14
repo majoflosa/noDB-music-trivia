@@ -18,17 +18,17 @@ class App extends Component {
     super();
 
     this.state = {
-      username: '',
-      currentUser: null,
-      updatedStats: null,
-      hasAnswered: false,
-      currentPage: 'home',
-      questionCount: 0,
-      questionSong: '',
-      answers: [],
-      correctAnswer: '',
-      playerScored: null,
-      score: 0
+      username: '',         // value typed into input field
+      currentUser: null,    // keeps track of which user is currently playing
+      updatedStats: null,   // ?
+      hasAnswered: false,   // keeps track of whether or not user selected an answer after new question was rendered
+      currentPage: 'home',  // keeps track of which page (component) to render
+      questionCount: 0,     // keeps track of how many questions have been answered
+      questionSong: '',     // song title to display as question
+      answers: [],          // ?
+      correctAnswer: '',    // keeps track of correct band for current question song
+      playerScored: null,   // feedback for answer chosen by user
+      score: 0              // keeps track of user's score on current game 
     }
 
     this.displayPage = this.displayPage.bind( this );
@@ -42,11 +42,18 @@ class App extends Component {
     this.randomizeAnswers = this.randomizeAnswers.bind( this );
     this.evaluateAnswer = this.evaluateAnswer.bind( this );
   }
-
+  /**
+   * Changes current page to display on state. Fired by clicking on nav items.
+   * 
+   * @param {string} pageName 
+   */
   changePage( pageName = 'home' ) {
     this.setState({ currentPage: pageName });
   }
 
+  /**
+   * Tests currentPage to decide which component to return. Fired on render() method on this component.
+   */
   displayPage() {
     switch ( this.state.currentPage ) {
       case 'instructions':
@@ -97,11 +104,18 @@ class App extends Component {
     }
   }
 
-  /* t */
+  /**
+   * Fired by typing on input field on Home component.
+   */ 
   updateUserName(e) {
     this.setState({ username: e.target.value });
   }
 
+  /**
+   * Creates a new user using post endpoint on local server. The created user is then set as currentUser.
+   * Fired by 'Continue' button on Home.
+   * @param {string} name 
+   */
   saveUser( name ) {
     if ( !name ) {
       console.log( 'A username is required.')
@@ -128,9 +142,15 @@ class App extends Component {
       .catch(() => console.log( 'Server Error: User could not be created.'));
   }
 
+  /**
+   * Deletes user object from users array in local server using delete endpoint on local server.
+   * Fired by clicking on red trash icon on PlayerStats component.
+   * @param {event object} e used to find the DOM element to remove
+   * @param {number} id id of user to delete
+   */
   deleteUser( e, id ) {
     let deletedWrapper = e.target.parentElement.parentElement.parentElement;
-    console.log( 'event target: ', e.target.parentElement );
+    // console.log( 'event target: ', e.target.parentElement );
 
     axios.delete( `/api/user/${id}`)
       .then( response => {
@@ -140,6 +160,14 @@ class App extends Component {
       .catch( () => console.log('User could not be deleted.') );
   }
 
+  /**
+   * Changes currentUser, in order to start playing under a different name. 
+   * Downloads full info of selected user using the get endpoint on local server for single users. 
+   * Invokes new game.
+   * Fired by clicking any 'Play New Game as {user}' buttons on PlayerStats.
+   * 
+   * @param {number} id id of user to switch to
+   */
   switchUser( id ) {
     if ( id === this.state.currentUser ) {
       this.newGame();
@@ -155,16 +183,18 @@ class App extends Component {
     })
   }
 
+  /**
+   * Resets stats, questionCount, and answer feedback.
+   * 
+   */
   newGame() {
       this.setState({ 
         score: 0, 
         questionCount: 0, 
-        // currentPage: 'question',
         playerScored: null,
-        // hasAnswered: false
       });
+
       this.randomizeAnswers();
-      // this.displayPage();
       console.log( 'newGame has started ' );
   }
 
@@ -186,46 +216,54 @@ class App extends Component {
       this.setState({ playerScored: 'Oh, just choose one!' });
       return false;
     }
+
     // check of amount of questions taken are within game limit, if so, send to results page and update user on DB
     if ( this.state.questionCount >= 5 ) {
+      // player has gone through 5 questions, show results
       this.setState({ currentPage: 'results', hasAnswered: true });
       
-      // TO DO: games item may need to be updated to include denominator on score
       this.state.currentUser.games.push( this.state.score );
       
+      // prepare request body for update
       let reqBody = {
         id: this.state.currentUser.id,
         username: this.state.currentUser.username,
         games: this.state.currentUser.games
       }
       console.log( 'reqBody: ', reqBody );
-      // return;
+      
+      // updates user.games property to include a new record
       axios.put( `/api/user/${this.state.currentUser.id}`, reqBody )
         .then( response => {
           this.setState({ questionCount: 0, updatedStats: response.data });
-          // this.displayUserUpdatedStats( response.data );
         })
         .catch( () => console.log( 'Server Error: score could not be updated on user' ) );
-
+      
+      // do nothing else if we're in results page
       return;
     }
     
+    // reset score if this function is invoked from a button within the Instructions or Results component
     if ( this.state.currentPage === 'instructions' || this.state.currentPage === 'results' ) {
       this.setState({ score: 0 });
     }
 
+    // hits external api to retrieve four random bands from predefined array, one of them as the correct answer,
+    // and several songs by that band. On Promise success, choose a random song from list to use as question.
     axios.get( '/api/question/' )
       .then( response => {
         console.log('randomizeAnswers: ', response );
 
+        // use random number to select question song. Some query results return band names as songs names,
+        // make sure not to pick one of those.
         let randomNumber = Math.floor( Math.random() * (response.data.artistTracks.length) );
         while ( response.data.artistTracks[randomNumber] == response.data.correctAnswer) {
           randomNumber = Math.floor( Math.random() * (response.data.artistTracks.length) );
         }
         
-        console.log( 'response.data.correctAnswer: ', response.data.correctAnswer)
-        console.log( 'response.data.artistTracks: ', response.data.artistTracks)
-        console.log( 'randomNumber: ', randomNumber )
+        console.log( 'response.data.correctAnswer: ', response.data.correctAnswer);
+        console.log( 'response.data.artistTracks: ', response.data.artistTracks);
+        console.log( 'randomNumber: ', randomNumber );
         
         this.setState({ 
           currentPage: 'question',
@@ -236,17 +274,20 @@ class App extends Component {
           playerScored: null
         });
 
-        // this.displayPage();
-      });
+      }); // end .then callback
   }
 
+  /**
+   * Is this function still used?
+   * @param {array} users Array of all users stored in local server
+   */
   displayUserUpdatedStats( users ) {
     let currentUpdatedUser = users.filter( user => user.username === this.state.username );
 
     return currentUpdatedUser;
   }
 
-  // 
+  // checks if answer selected by user is correct. updates score and answer feedback accordingly.
   evaluateAnswer( selectedAnswer ) {
     if ( selectedAnswer === this.state.correctAnswer ) {
       this.setState({ 
@@ -260,6 +301,7 @@ class App extends Component {
       });
     }
 
+    // Re-render for updated answer feedback message
     this.displayPage();
 
     console.log( 'evaluateAnswer is passing correctly in App')
