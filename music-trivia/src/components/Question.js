@@ -12,22 +12,13 @@ class Question extends Component {
             score: this.props.score
         }
 
-        // this.evaluate = this.evaluate.bind( this );
     }
 
-    // evaluate( selectedAnswer ) {
-    //     if ( selectedAnswer === this.props.correctAnswer ) {
-    //       this.setState({ playerScored: 'Correct!', score: this.props.score + 1 });
-    //     } else {
-    //       this.setState({ playerScored: 'Wrong!' });
-    //     }
-
-    //     this.props.resetPage();
-    //     console.log( 'selectedAnswer: ', selectedAnswer );
-    //     console.log( 'this.props.correctAnswer: ', this.props.correctAnswer );
-    //   }
-
     render() {
+        let buttonText = <span>Next Question <i className="fas fa-chevron-circle-right"></i></span>;
+        if ( this.props.count === 5) {
+            buttonText = <span>See Results <i className="fas fa-chevron-circle-right"></i></span>;
+        }
         return (
             <div className="wrapper question">
                 <header>
@@ -65,7 +56,7 @@ class Question extends Component {
                     {/* <AnswerFeedback playerScored={this.state.playerScored} /> */}
                     <div className="answer-feedback">{this.props.playerScored}</div>
                     
-                    <button onClick={() => this.props.nextQuestion(false)} className="btn">Next Question</button>
+                    <button onClick={() => this.props.nextQuestion(false)} className="btn">{buttonText}</button>
                 </main>
                 
             </div>

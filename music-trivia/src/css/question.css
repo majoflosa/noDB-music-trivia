@@ -12,8 +12,18 @@
     font-size: 20px;
     letter-spacing: 1px;
     cursor: pointer;
+    transition: all 0.12s ease-in-out;    
 }
 
 .answer:hover {
     background: #eee;
+}
+
+
+.answer-feedback .correct {
+    color: green
+}
+
+.answer-feedback .wrong {
+    color: red
 }

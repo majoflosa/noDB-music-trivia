@@ -15,22 +15,39 @@
     position: relative;
 }
 
+.user-stats.current-user {
+    background: #f4f4f4;
+    box-shadow: 4px 4px 0 #ccc;
+}
+
+.user-stats .btn {
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 6px 10px
+}
+
 .delete-user {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 2px;
+    right: 2px;
     display: block;
-    padding: 8px;
-    background: #555;
-    color: #fff;
-    font-size: 12px;
+    padding: 0px 7px;
+    background: #fff;
+    font-size: 21px;
     text-transform: uppercase;
     letter-spacing: 1px;
+    color: #f65353;
     cursor: pointer;
 }
 
 .delete-user:hover {
-    background: #666;
+    background: #fafafa;
+}
+
+.user-stats h3 {
+    text-transform: uppercase;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 5px;
 }
 
 .no-users {

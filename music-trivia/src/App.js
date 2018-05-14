@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
+import './fontawesome-svg/js/fontawesome-all';
+import './fontawesome-svg/css/fa-svg-with-js.css';
 
 // Components
 import Navigation from './components/Navigation';
@@ -95,10 +97,9 @@ class App extends Component {
     }
   }
 
+  /* t */
   updateUserName(e) {
     this.setState({ username: e.target.value });
-    // console.log( 'username in App.js: ', this.state.username );
-    // console.log( 'event: ', e.target.value );
   }
 
   saveUser( name ) {
@@ -120,7 +121,7 @@ class App extends Component {
           score: 0,
           questionCount: 0,
         });
-        console.log( response.data );
+        console.log( 'response.data after create user: ', response.data );
         console.log( 'currentUser: ', this.state.currentUser );
         this.displayPage();
       })
@@ -128,12 +129,11 @@ class App extends Component {
   }
 
   deleteUser( e, id ) {
-    // event.persist();
-    let deletedWrapper = e.target.parentElement;
+    let deletedWrapper = e.target.parentElement.parentElement.parentElement;
     console.log( 'event target: ', e.target.parentElement );
+
     axios.delete( `/api/user/${id}`)
       .then( response => {
-        // this.displayPage();
         deletedWrapper.remove();
         console.log( 'User deleted successfully. ', response.data );
       } )
@@ -141,6 +141,10 @@ class App extends Component {
   }
 
   switchUser( id ) {
+    if ( id === this.state.currentUser ) {
+      this.newGame();
+      return;
+    }
     axios.get( `/api/user/${id}`)
     .then( response => {
       console.log( response.data );
@@ -215,6 +219,9 @@ class App extends Component {
         console.log('randomizeAnswers: ', response );
 
         let randomNumber = Math.floor( Math.random() * (response.data.artistTracks.length) );
+        while ( response.data.artistTracks[randomNumber] == response.data.correctAnswer) {
+          randomNumber = Math.floor( Math.random() * (response.data.artistTracks.length) );
+        }
         
         console.log( 'response.data.correctAnswer: ', response.data.correctAnswer)
         console.log( 'response.data.artistTracks: ', response.data.artistTracks)
@@ -239,12 +246,16 @@ class App extends Component {
     return currentUpdatedUser;
   }
 
+  // 
   evaluateAnswer( selectedAnswer ) {
     if ( selectedAnswer === this.state.correctAnswer ) {
-      this.setState({ playerScored: 'Correct!', score: ++this.state.score, hasAnswered: true });
+      this.setState({ 
+        playerScored: <h2 className="correct"><i className="fas fa-check-circle"></i> Correct!</h2>, 
+        score: ++this.state.score, hasAnswered: true
+      });
     } else {
       this.setState({ 
-        playerScored: `Wrong! ${this.state.correctAnswer} is the correct answer.`, 
+        playerScored: <h2><strong className="wrong"><i className="fas fa-times-circle"></i> Wrong! </strong>{this.state.correctAnswer} is the correct answer.</h2>, 
         hasAnswered: true 
       });
     }

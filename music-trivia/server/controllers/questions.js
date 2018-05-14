@@ -24,7 +24,7 @@ module.exports = {
         let randomBand = Math.floor( Math.random() * rndBands.length);
         term = rndBands[randomBand];
 
-        axios.get( `https://itunes.apple.com/search?term=${term}&media=music&entity=musicTrack&limit=8` )
+        axios.get( `https://itunes.apple.com/search?term=${term}&media=music&entity=musicTrack&limit=15` )
         .then( resData => {
             let retObj = {
                 artistTracks: resData.data.results.map( result => result.trackName ),

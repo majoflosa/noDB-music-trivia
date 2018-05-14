@@ -9,5 +9,10 @@
     margin: 0 5px;
     padding: 10px 15px;
     text-transform: uppercase;
-    cursor: pointer
+    cursor: pointer;
+    transition: all 0.12s ease-in-out;    
+}
+
+.main-nav span:hover {
+    background: #ddd;
 }

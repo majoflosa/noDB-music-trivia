@@ -28,12 +28,15 @@ class PlayerStats extends Component {
                         return <span className="history-game">{game}/5</span>;
                     });
 
-                    let deleteButton = <span onClick={(e) => this.props.deleteUser(e, user.id)} className="delete-user">Delete</span>
+                    let deleteButton = <span onClick={(e) => this.props.deleteUser(e, user.id)} className="delete-user"><i className="fas fa-trash-alt"></i></span>
 
                     let switchUserButton = <button onClick={() => this.props.switchUser(user.id)} className="btn">Play New Game as {user.username}</button>
+
+                    // let staticNewGameBtn = <button onClick={ this.props.newGame } className="btn start-game">New Game</button>
                     
                     return (
-                        <div key={user.id} className="user-stats">
+                        <div key={user.id} 
+                            className={this.props.currentUser.id === user.id ? 'user-stats current-user' : 'user-stats'}>
                             { this.props.currentUser.id === user.id ? '' : deleteButton }
                             <h3>{user.username}</h3>
                             <p>Games played: {user.games.length}</p>
@@ -41,7 +44,7 @@ class PlayerStats extends Component {
                             <p>Past Scores:<br />
                                 {history}
                             </p>
-                            { this.props.currentUser.id === user.id ? '' : switchUserButton }
+                            { switchUserButton }
                         </div>
                     );
                 });

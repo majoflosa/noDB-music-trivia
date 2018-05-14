@@ -1,7 +1,12 @@
 .wrapper.instructions p {
     /* text-align: left; */
-    max-width: 400px;
-    margin: 30px auto;
+    max-width: 600px;
+    margin: 15px auto;
+    font-size: 22px;
+}
+
+.wrapper.instructions button {
+    letter-spacing: 1.25px;
 }
 
 .wrapper.instructions article {

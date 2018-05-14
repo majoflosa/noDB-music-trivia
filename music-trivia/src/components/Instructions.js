@@ -12,9 +12,9 @@ class Instructions extends Component {
         return (
             <div className="wrapper instructions">
                     <h1>How to play:</h1>
-                    <p>Once the game starts, you will be given ## questions testing your knowledge of singers/bands and their songs. An song title will be displayed, and with 4 band name as choices for your answer. Click on the singer/band who authored the song to accumulate points.</p>
+                    <p>Once the game starts, you will be given 5 questions testing your knowledge of classic rock bands/singers and their songs.</p><p>A song title will be displayed, and 4 bands/singers as choices for your answer. Click on the band/singer who authored the song to score points.</p>
 
-                    <button onClick={ this.props.newGame } className="btn start-game">Start Game</button>
+                    <button onClick={ this.props.newGame } className="btn start-game">Less Talkin', More Rockin'</button>
             </div>
         );
     }

@@ -1,9 +1,16 @@
-.wrapper.home .app-title {
-    margin: 10px auto 0px;
+.wrapper.home h3 {
+    color: #888;
+    margin: 0 auto -10px;
 }
 
-.wrapper.home .tagline {
-    color: #aaa;
+.wrapper.home .app-title {
+    margin: 0 auto;
+}
+
+.wrapper.home .logo {
+    font-size: 40px;
+    color: #888;
+    margin: -18px auto 0;
 }
 
 .wrapper.home main {
@@ -29,6 +36,10 @@
     margin: 15px 0 auto;
     text-align: center;
     box-sizing: border-box;
+}
+
+.wrapper.home .inner input::placeholder {
+    color: #ccc;
 }
 
 .wrapper.home .inner .btn {
