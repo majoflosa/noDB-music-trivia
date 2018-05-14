@@ -9,6 +9,7 @@ import Instructions from './components/Instructions';
 import Question from './components/Question';
 import Results from './components/Results';
 import PlayerStats from './components/PlayerStats';
+import CurrentPlayer from './components/CurrentPlayer';
 
 class App extends Component {
   constructor() {
@@ -33,6 +34,8 @@ class App extends Component {
     this.updateUserName = this.updateUserName.bind( this );
     this.displayUserUpdatedStats = this.displayUserUpdatedStats.bind( this );
     this.saveUser = this.saveUser.bind( this );
+    this.deleteUser = this.deleteUser.bind( this );
+    this.switchUser = this.switchUser.bind( this );
     this.newGame = this.newGame.bind( this );
     this.randomizeAnswers = this.randomizeAnswers.bind( this );
     this.evaluateAnswer = this.evaluateAnswer.bind( this );
@@ -69,10 +72,17 @@ class App extends Component {
           newGame={this.newGame}
           userUpdated={this.state.userUpdated}
           updatedStats={this.state.updatedStats}
+          deleteUser={this.deleteUser}
+          currentUser={this.state.currentUser}
+          switchUser={this.switchUser}
           />;
-        break;
+          break;
       case 'userstats':
-        return <PlayerStats />
+        return <PlayerStats 
+          deleteUser={this.deleteUser}
+          currentUser={this.state.currentUser}
+          switchUser={this.switchUser}
+          />
         break;
       case 'home':
       default:
@@ -111,9 +121,34 @@ class App extends Component {
           questionCount: 0,
         });
         console.log( response.data );
+        console.log( 'currentUser: ', this.state.currentUser );
         this.displayPage();
       })
       .catch(() => console.log( 'Server Error: User could not be created.'));
+  }
+
+  deleteUser( e, id ) {
+    // event.persist();
+    let deletedWrapper = e.target.parentElement;
+    console.log( 'event target: ', e.target.parentElement );
+    axios.delete( `/api/user/${id}`)
+      .then( response => {
+        // this.displayPage();
+        deletedWrapper.remove();
+        console.log( 'User deleted successfully. ', response.data );
+      } )
+      .catch( () => console.log('User could not be deleted.') );
+  }
+
+  switchUser( id ) {
+    axios.get( `/api/user/${id}`)
+    .then( response => {
+      console.log( response.data );
+      
+      this.setState({ currentUser: response.data })
+      console.log( 'currentUser: ', this.state.currentUser );
+      this.newGame();
+    })
   }
 
   newGame() {
@@ -138,14 +173,14 @@ class App extends Component {
    * seletcs 1 as correct answer, uses correct answer as parameter fro iTunes GET endpoint, retrieves
    * list of songs by selected band.
    * 
-   * @param {*} newGame boolean, controls whether or not to start the game from 0
+   * @param {} newGame boolean, controls whether or not to start the game from 0
    */
   randomizeAnswers() {
-    if ( !this.state.hasAnswered && this.state.currentPage !== 'instructions' ) {
-      // if ()
-      return false;
-    } else {
+    if ( this.state.hasAnswered || this.state.currentPage === 'instructions' || this.state.currentPage === 'userstats' ) {
       this.setState({ hasAnswered: false });
+    } else {
+      this.setState({ playerScored: 'Oh, just choose one!' });
+      return false;
     }
     // check of amount of questions taken are within game limit, if so, send to results page and update user on DB
     if ( this.state.questionCount >= 5 ) {
@@ -156,9 +191,11 @@ class App extends Component {
       
       let reqBody = {
         id: this.state.currentUser.id,
-        username: this.state.username,
+        username: this.state.currentUser.username,
         games: this.state.currentUser.games
       }
+      console.log( 'reqBody: ', reqBody );
+      // return;
       axios.put( `/api/user/${this.state.currentUser.id}`, reqBody )
         .then( response => {
           this.setState({ questionCount: 0, updatedStats: response.data });
@@ -206,7 +243,10 @@ class App extends Component {
     if ( selectedAnswer === this.state.correctAnswer ) {
       this.setState({ playerScored: 'Correct!', score: ++this.state.score, hasAnswered: true });
     } else {
-      this.setState({ playerScored: 'Wrong!', hasAnswered: true });
+      this.setState({ 
+        playerScored: `Wrong! ${this.state.correctAnswer} is the correct answer.`, 
+        hasAnswered: true 
+      });
     }
 
     this.displayPage();
@@ -218,7 +258,7 @@ class App extends Component {
     return (
       <div className="App">
         <Navigation handlePageChange={this.changePage} newGame={this.newGame} />
-        
+        <CurrentPlayer currentUser={this.state.currentUser}/>
         { this.displayPage() }
       </div>
     );

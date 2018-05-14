@@ -12,41 +12,11 @@ class PlayerStats extends Component {
 
         // this.displayUpdatedStats = this.displayUpdatedStats.bind( this );
     }
-
-    // displayUpdatedStats() {
-    //     let userList = this.props.updatedStats.map( (user, index) => {
-    //         let totalScore = user.games.reduce( (total, game) => {
-    //             return (total + game)
-    //         }, 0);
-    //         // 35.259259, 3 games, 5 4 5
-
-    //         let history = user.games.map( (game, gameInd) => {
-    //             return <span className="history-game">{game}/5</span>;
-    //         });
-
-    //         return (
-    //             <div key={index} className="user-stats">
-    //                 <h3>{user.username}</h3>
-    //                 <p>Games played: {user.games.length}</p>
-    //                 <p>Total Score: {totalScore}</p>
-    //                 <p>Past Scores:<br />
-    //                     {history}
-    //                 </p>
-                    
-    //                 {/* <p>Average: {(average * 100) + '%'}</p> */}
-    //             </div>
-    //         );
-    //     });
-
-    //     this.setState({ usersDisplaying: userList });
-    //     return this.state.usersDisplaying;
-    // }
-
     
     componentDidMount() {
         axios.get( '/api/user/' )
             .then( response => {
-                // console.log( response.data );
+                console.log( 'response.data: ', response.data );
 
                 let userList = response.data.map( (user, index) => {
                     let totalScore = user.games.reduce( (total, game) => {
@@ -58,19 +28,28 @@ class PlayerStats extends Component {
                         return <span className="history-game">{game}/5</span>;
                     });
 
+                    let deleteButton = <span onClick={(e) => this.props.deleteUser(e, user.id)} className="delete-user">Delete</span>
+
+                    let switchUserButton = <button onClick={() => this.props.switchUser(user.id)} className="btn">Play New Game as {user.username}</button>
+                    
                     return (
-                        <div key={index} className="user-stats">
+                        <div key={user.id} className="user-stats">
+                            { this.props.currentUser.id === user.id ? '' : deleteButton }
                             <h3>{user.username}</h3>
                             <p>Games played: {user.games.length}</p>
                             <p>Total Score: {totalScore}</p>
                             <p>Past Scores:<br />
                                 {history}
                             </p>
-                            
-                            {/* <p>Average: {(average * 100) + '%'}</p> */}
+                            { this.props.currentUser.id === user.id ? '' : switchUserButton }
                         </div>
                     );
                 });
+
+                if ( userList.length === 0 ) {
+                    console.log( 'userList: ', userList );
+                    userList = <p className="no-users">There are currently no users.</p>;
+                }
 
                 this.setState({ usersDisplaying: userList });
             })

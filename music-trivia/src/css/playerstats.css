@@ -11,6 +11,32 @@
     margin: 5px 3px;
     width: 30%;
     display: inline-block;
+    vertical-align: top;
+    position: relative;
+}
+
+.delete-user {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    display: block;
+    padding: 8px;
+    background: #555;
+    color: #fff;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.delete-user:hover {
+    background: #666;
+}
+
+.no-users {
+    color: #888;
+    font-size: 22px;
+    text-align: center;
 }
 
 .history-game {

@@ -19,10 +19,16 @@ app.get( '/api/question/', questions.getArtistSongs );
 // Get all users
 app.get( '/api/user/', users.getUsers );
 
+// Get single user
+app.get( '/api/user/:id', users.getUserById );
+
 // Create a new user
 app.post( '/api/user', users.createUser );
 
 // Update user
 app.put( '/api/user/:id', users.updateUser );
+
+// Delete user
+app.delete( '/api/user/:id', users.deleteUser );
 
 app.listen( port, console.log( `Server running. Listening on port ${port}.`) );

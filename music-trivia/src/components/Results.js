@@ -21,7 +21,12 @@ class Results extends Component {
                 <p>You got {this.props.finalScore}/5 questions.</p>
                 <button onClick={ this.props.newGame } className="btn start-game">New Game</button>
 
-                <PlayerStats updatedStats={this.props.updatedStats} />
+                <PlayerStats 
+                    deleteUser={this.props.deleteUser} 
+                    updatedStats={this.props.updatedStats} 
+                    currentUser={this.props.currentUser}
+                    switchUser={this.props.switchUser}
+                />
             </div>
         );
     }
